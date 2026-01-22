@@ -1,0 +1,1462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Motor Vehicle Learning Hub | Interactive Automotive Education</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-dark: #0a1929;
+            --primary-blue: #1565c0;
+            --accent-orange: #ff6b35;
+            --accent-green: #4caf50;
+            --light-grey: #eceff1;
+            --mid-grey: #90a4ae;
+            --dark-grey: #37474f;
+            --card-bg: #ffffff;
+            --shadow: 0 8px 24px rgba(0,0,0,0.12);
+            --shadow-hover: 0 16px 48px rgba(0,0,0,0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Barlow', sans-serif;
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--dark-grey) 100%);
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background Pattern */
+        .bg-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.03;
+            background-image: 
+                repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(255,255,255,.05) 35px, rgba(255,255,255,.05) 70px),
+                repeating-linear-gradient(-45deg, transparent, transparent 35px, rgba(255,255,255,.05) 35px, rgba(255,255,255,.05) 70px);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Header */
+        header {
+            position: relative;
+            background: linear-gradient(135deg, var(--primary-blue) 0%, #0d47a1 100%);
+            padding: 3rem 2rem;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255,107,53,0.2) 0%, transparent 70%);
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.2; }
+            50% { transform: scale(1.2); opacity: 0.3; }
+        }
+
+        h1 {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 700;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            font-size: clamp(1rem, 2.5vw, 1.5rem);
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .creator-tag {
+            display: inline-block;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            padding: 0.5rem 1.5rem;
+            border-radius: 30px;
+            color: white;
+            font-size: 0.95rem;
+            border: 1px solid rgba(255,255,255,0.2);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Navigation Tabs */
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2rem auto;
+            max-width: 600px;
+            padding: 0 1rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .nav-tab {
+            flex: 1;
+            padding: 1rem 2rem;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 12px;
+            color: white;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-tab:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+
+        .nav-tab.active {
+            background: var(--accent-orange);
+            border-color: var(--accent-orange);
+            box-shadow: 0 4px 20px rgba(255,107,53,0.4);
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Search Bar */
+        .search-section {
+            margin-bottom: 3rem;
+            animation: slideDown 0.6s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .search-bar {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 1.2rem 2rem;
+            font-size: 1.1rem;
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 50px;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            font-family: 'Barlow', sans-serif;
+        }
+
+        .search-bar:focus {
+            outline: none;
+            border-color: var(--accent-orange);
+            box-shadow: 0 0 0 4px rgba(255,107,53,0.2);
+        }
+
+        /* Content Views */
+        .view {
+            display: none;
+        }
+
+        .view.active {
+            display: block;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Category Section */
+        .category {
+            margin-bottom: 4rem;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 3px solid var(--accent-orange);
+        }
+
+        .category-icon {
+            font-size: 2.5rem;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+        }
+
+        .category-title {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Tool Cards Grid */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .tool-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .tool-header {
+            background: linear-gradient(135deg, var(--primary-blue), #1976d2);
+            padding: 1.5rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tool-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .tool-title {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .tool-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .badge.escape-room { background: rgba(255,107,53,0.9); }
+        .badge.revision { background: rgba(76,175,80,0.9); }
+        .badge.interactive { background: rgba(33,150,243,0.9); }
+        .badge.assessment { background: rgba(156,39,176,0.9); }
+        .badge.tracking { background: rgba(255,152,0,0.9); }
+        .badge.educator { background: rgba(96,125,139,0.9); }
+
+        .tool-body {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tool-description {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .tool-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid #eee;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--mid-grey);
+        }
+
+        .tool-link {
+            display: inline-block;
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--accent-orange), #ff8a65);
+            color: white;
+            text-decoration: none;
+            text-align: center;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(255,107,53,0.3);
+        }
+
+        .tool-link:hover {
+            background: linear-gradient(135deg, #ff8a65, var(--accent-orange));
+            box-shadow: 0 6px 20px rgba(255,107,53,0.5);
+            transform: translateY(-2px);
+        }
+
+        /* Stats Section */
+        .stats-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .stat-card {
+            background: rgba(255,255,255,0.95);
+            padding: 2rem;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .stat-number {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-orange);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: var(--dark-grey);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* About Section */
+        .about-section {
+            background: rgba(255,255,255,0.95);
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            margin-bottom: 3rem;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .about-section h2 {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 2.5rem;
+            color: var(--primary-blue);
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+        }
+
+        .about-section h3 {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.8rem;
+            color: var(--dark-grey);
+            margin: 2rem 0 1rem;
+        }
+
+        .about-section p {
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .about-section ul {
+            margin-left: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .about-section li {
+            margin-bottom: 0.8rem;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary-dark);
+            color: rgba(255,255,255,0.7);
+            text-align: center;
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+        }
+
+        footer a {
+            color: var(--accent-orange);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: #ff8a65;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-tabs {
+                flex-direction: column;
+            }
+
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-section {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .about-section {
+                padding: 2rem;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            text-align: center;
+            padding: 4rem;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .loading::after {
+            content: '...';
+            animation: dots 1.5s steps(4, end) infinite;
+        }
+
+        @keyframes dots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60%, 100% { content: '...'; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-pattern"></div>
+    
+    <header>
+        <h1>🏎️ Motor Vehicle Learning Hub</h1>
+        <p class="subtitle">Interactive Tools & Resources for Automotive Education</p>
+        <div class="creator-tag">Created by Gary Crowhurst | CodeEdAI</div>
+        
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="switchView('student')">
+                📚 Student Resources
+            </button>
+            <button class="nav-tab" onclick="switchView('educator')">
+                👨‍🏫 Educator Tools
+            </button>
+            <button class="nav-tab" onclick="switchView('about')">
+                ℹ️ About
+            </button>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Student View -->
+        <div id="student-view" class="view active">
+            <div class="search-section">
+                <input type="text" class="search-bar" id="searchBar" placeholder="🔍 Search for tools, topics, or qualifications...">
+            </div>
+
+            <div class="stats-section">
+                <div class="stat-card">
+                    <div class="stat-number">30+</div>
+                    <div class="stat-label">Learning Tools</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Mobile Friendly</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">Free</div>
+                    <div class="stat-label">Always Free</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Access Anytime</div>
+                </div>
+            </div>
+
+            <!-- Engine Systems -->
+            <div class="category" data-category="engine">
+                <div class="category-header">
+                    <span class="category-icon">🔧</span>
+                    <h2 class="category-title">Engine Systems</h2>
+                </div>
+                <div class="tools-grid">
+                    <div class="tool-card" data-keywords="engine otto cycle escape room game">
+                        <div class="tool-header">
+                            <div class="tool-badges">
+                                <span class="badge escape-room">Escape Room</span>
+                                <span class="badge interactive">Interactive</span>
+                            </div>
+                            <h3 class="tool-title">Engine Escape Challenge</h3>
+                        </div>
+                        <div class="tool-body">
+                            <p class="tool-description">Master the Otto Cycle through an engaging escape room experience. Perfect for testing your engine knowledge!</p>
+                            <div class="tool-meta">
+                                <span class="meta-item">⏱️ 20-30 min</span>
+                                <span class="meta-item">🎯 Level 1-2</span>
+                            </div>
+                            <a href="https://garycrowhurst.github.io/motor/" class="tool-link" target="_blank">Launch Tool →</a>
+                        </div>
+                    </div>
+
+                    <div class="tool-card" data-keywords="engine cooling escape room thermal">
+                        <div class="tool-header">
+                            <div class="tool-badges">
+                                <span class="badge escape-room">Escape Room</span>
+                            </div>
+                            <h3 class="tool-title">Cooling System Escape</h3>
+                        </div>
+                        <div class="tool-body">
+                            <p class="tool-description">Solve thermal lab challenges to master engine cooling systems in this interactive escape room.</p>
+                            <div class="tool-meta">
+                                <span class="meta-item">⏱️ 25-35 min</span>
+                                <span class="meta-item">🎯 Level 2</span>
+                            </div>
+                            <a href="https://garycrowhurst.github.io/Engine-Cooling-Escape-Room/" class="tool-link" target="_blank">Launch Tool →</a>
+                        </div>
+                    </div>
+
+                    <div class="tool-card" data-keywords="engine motorsport learning module">
+                        <div class="tool-header">
+                            <div class="tool-badges">
+                                <span class="badge interactive">Interactive</span>
+                            </div>
+                            <h3 class="tool-title">Motorsport Engine Systems</h3>
+                        </div>
+                        <div class="tool-body">
+                            <p class="tool-description">Complete learning module covering construction, operation, lubrication, and cooling in motorsport engines.</p>
+                            <div class="tool-meta">
+                                <span class="meta-item">⏱️ 60+ min</span>
+                                <span class="meta-item">🎯 Level 2</span>
+                            </div>
+                            <a href="https://garycrowhurst.github.io/Engine/" class="tool-link" target="_blank">Launch Tool →</a>
+                        </div>
+                    </div>
+
+                    <div class="tool-card" data-keywords="lubrication engine oil friction">
+                        <div class="tool-header">
+                            <div class="tool-badges">
+                                <span class="badge interactive">Interactive</span>
+                            </div>
+                            <h3 class="tool-title">Engine Lubrication</h3>
+                        </div>
+                        <div class="tool-body">
+                            <p class="tool-description">Master the 8 critical friction areas in an engine through interactive activities and hands-on learning.</p>
+                            <div class="tool-meta">
+                                <span class="meta-item">⏱️ 45 min</span>
+                                <span class="meta-item">🎯 Level 1</span>
+                            </div>
+                            <a href="https://garycrowhurst.github.io/Lubrication/" class="tool-link" target="_blank">Launch Tool →</a>
+                        </div>
+                    </div>
+
+                    <div class="tool-card" data-keywords="lubrication assessment 3902">
+                        <div class="tool-header">
+                            <div class="tool-badges">
+                                <span class="badge assessment">Assessment</span>
+                            </div>
+                            <h3 class="tool-title">Engine Lubrication Assessment</h3>
+                        </div>
+                        <div class="tool-body">
+                            <p class="tool-description">Assessment guide for Introduction to Vehicle Engine Lubrication Systems (3902-001).</p>
+                            <div class="tool-meta">
+                                <span class="meta-item">📝 Assessment 3902</span>
+                            </div>
+                            <a href="https://garycrowhurst.github.io/EngineLubrication3902/" class="tool-link" target="_blank">Launch Tool →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chassis & Suspension -->
+            <div class="category" data-category="chassis">
+                <div class="category-header">
+                    <span class="category-icon">🛞</span>
+                    <h2 class="category-title">Chassis & Suspension</h2>
+                </div>
+                <div class="tools-grid">
+                    <div class="tool-card" data-keywords="chassis revision exam quiz">
+                        <div class="tool-header">
+                            <div class="tool-badges">
+                                <span class="badge revision">Revision</span>
+                                <span class="badge interactive">Interactive</span>
+                            </div>
+                            <h3 class="tool-title">Chassis Systems Revision</h3>
+                        </div>
+                        <div class="tool-body">
+                            <p class="tool-description">Comprehensive revision tool covering steering, suspension, and braking systems for Level 2 exams.</p>
+                            <div class="tool-meta">
+                                <span class="meta-item">📚 70+ Questions</span>
+                                <span class="meta-item">🎯 Level 2</span>
+                            </div>
+                            <a href="https://garycrowhurst.github.io/Chassis/" class="tool-link" target="_blank">Launch Tool →</a>
+                        </div>
+                    </div>
+
+                    <div class="tool-card" data-keywords="suspension systems maintenance 708">
+                        <div class="tool-header">
+                            <div class="tool-badges">
+                                <span class="badge interactive">Interactive</span>
+                            </div>
+                            <h3 class="tool-title">Suspension Systems</h3>
+                        </div>
+                        <div class="tool-body">
+                            <p class="tool-description">Interactive learning for suspension systems and routine maintenance (Unit 708).</p>
+                            <div class="tool-meta">
+                                <span class="meta-item">📝 Unit 708</span>
+                                <span class="meta-item">🎯 Level 1</span>
+                            </div>
+                            <a href="https://garycrowhurst.github.io/suspension/" class="tool-link" target="_blank">Launch Tool →</a>
+                        </div>
+                    </div>
+
+                    <div class="tool-card" data-keywords="steering geometry alignment camber">
+                        <div class="tool-header">
+                            <div class="tool-badges">
+                                <span class="badge interactive">Interactive</span>
+                            </div>
+                            <h3 class="tool-title">Steering Geometry Guide</h3>
+                        </div>
+                        <div class="tool-body">
+                            <p class="tool-description">Learn steering angles and geometry concepts essential for Level 1 Motor Vehicle Maintenance.</p>
+                            <div class="tool-meta">
+                                <span class="meta-item">🎯 Level 1</span>
+                            </div>
+                            <a href="https://garycrowhurst.github.io/SteeringGeometry/" class="tool-link" target="_blank">Launch Tool →</a>
+                        </div>
+                    </div>
+
+                    <div class="tool-card" data-keywords="chassis quiz 154">
+                        <div class="tool-header">
+                            <div class="tool-badges">
+                                <span class="badge revision">Revision Quiz</span>
+                            </div>
+                            <h3 class="tool-title">Chassis Components Quiz</h3>
+                        </div>
+                        <div class="tool-body">
+                            <p class="tool-description">Quick revision quiz for light vehicle chassis components at Level 2.</p>
+                            <div class="tool-meta">
+                                <span class="meta-item">🎯 Level 2</span>
+                            </div>
+                            <a href="https://garycrowhurst.github.io/154/" class="tool-link" target="_blank">Launch Tool →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Braking Systems -->
+            <div class="category" data-category="braking">
+                <div class="category-header">
+                    <span class="category-icon">🛑</span>
+                    <h2 class="category-title">Braking Systems</h2>
+                </div>
+                <div class="tools-grid">
+                    <div class="tool-card" data-keywords="brake components workbook 7290">
+                        <div class="tool-header">
+                            <div class="tool-badges">
+                                <span class="badge interactive">Interactive</span>
+                            </div>
+                            <h3 class="tool-title">Brake Components Learning</h3>
+                        </div>
+                        <div class="tool-body">
+                            <p class="tool-description">Interactive workbook with image upload and auto-fill features. Master brake systems through hands-on learning!</p>
+                            <div class="tool-meta">
+                                <span class="meta-item">📸 Photo Upload</span>
+                                <span class="meta-item">🎯 City & Guilds 7290</span>
+                            </div>
+                            <a href="https://garycrowhurst.github.io/VehicleBraking/" class="tool-link" target="_blank">Launch Tool →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Transmission & Drivetrain -->
+            <div class="category" data-category="transmission">
+                <div class="category-header">
+                    <span class="category-icon">⚙️</span>
+                    <h2 class="category-title">Transmission & Drivetrain</h2>
+                </div>
+                <div class="tools-grid">
+                    <div class="tool-card" data-keywords="gearbox transmission motorsport clutch">
+                        <div class="tool-header">
+                            <div class="tool-badges">
+                                <span class="badge interactive">Interactive</span>
+                            </div>
+                            <h3 class="tool-title">Gearbox & Transmission</h3>
+                        </div>
+                        <div class="tool-body">
+                            <p class="tool-description">Interactive lessons on transmission systems, clutches, gearboxes, and driveline components for motorsport.</p>
+                            <div class="tool-meta">
+                                <span class="meta-item">🏁 Motorsport L2</span>
+                            </div>
+                            <a href="https://garycrowhurst.github.io/gb/" class="tool-link" target="_blank">Launch Tool →</a>
+                        </div>
+                    </div>
+
+                    <div class="tool-card" data-keywords="clutch diagnosis simulator motorsport">
+                        <div class="tool-header">
+                            <div class="tool-badges">
+                                <span class="badge interactive">Simulator</span>
+                            </div>
+                            <h3 class="tool-title">Clutch Diagnosis Simulator</h3>
+                        </div>
+                        <div class="tool-body">
+                            <p class="tool-description">Diagnose clutch issues under race conditions! Test your diagnostic skills in motorsport scenarios.</p>
+                            <div class="tool-meta">
+                                <span class="meta-item">🏁 Motorsport</span>
+                            </div>
+                            <a href="https://garycrowhurst.github.io/transmission/" class="tool-link" target="_blank">Launch Tool →</a>
+                        </div>
+                    </div>
+
+                    <div class="tool-card" data-keywords="gear ratio calculation">
+                        <div class="tool-header">
+                            <div class="tool-badges">
+                                <span class="badge interactive">Calculator</span>
+                            </div>
+                            <h3 class="tool-title">Gear Ratio Learning</h3>
+                        </div>
+                        <div class="tool-body">
+                            <p class="tool-description">Interactive app for understanding and calculating car gear ratios.</p>
+                            <div class="tool-meta">
+                                <span class="meta-item">🎯 All Levels</span>
+                            </div>
+                            <a href="https://garycrowhurst.github.io/Gearratio/" class="tool-link" target="_blank">Launch Tool →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Electrical Systems -->
+            <div class="category" data-category="electrical">
+                <div class="category-header">
+                    <span class="category-icon">⚡</span>
+                    <h2 class="category-title">Electrical Systems</h2>
+                </div>
+                <div class="tools-grid">
+                    <div class="tool-card" data-keywords="electrical systems 3902">
+                        <div class="tool-header">
+                            <div class="tool-badges">
+                                <span class="badge interactive">Interactive</span>
+                            </div>
+                            <h3 class="tool-title">Vehicle Electrical Systems</h3>
+                        </div>
+                        <div class="tool-body">
+                            <p class="tool-description">Entry Level 3 electrical systems learning resource (Unit 3902-005).</p>
+                            <div class="tool-meta">
+                                <span class="meta-item">📝 Unit 3902-005</span>
+                                <span class="meta-item">🎯 Entry Level 3</span>
+                            </div>
+                            <a href="https://garycrowhurst.github.io/Electrical/" class="tool-link" target="_blank">Launch Tool →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fuel & Exhaust -->
+            <div class="category" data-category="fuel">
+                <div class="category-header">
+                    <span class="category-icon">⛽</span>
+                    <h2 class="category-title">Fuel & Exhaust Systems</h2>
+                </div>
+                <div class="tools-grid">
+                    <div class="tool-card" data-keywords="petrol fuel system injection">
+                        <div class="tool-header">
+                            <div class="tool-badges">
+                                <span class="badge interactive">Interactive</span>
+                            </div>
+                            <h3 class="tool-title">Petrol Fuel Systems</h3>
+                        </div>
+                        <div class="tool-body">
+                            <p class="tool-description">Interactive learning resource covering petrol fuel injection and delivery systems.</p>
+                            <div class="tool-meta">
+                                <span class="meta-item">🎯 Level 1-2</span>
+                            </div>
+                            <a href="https://garycrowhurst.github.io/fuelsystem/" class="tool-link" target="_blank">Launch Tool →</a>
+                        </div>
+                    </div>
+
+                    <div class="tool-card" data-keywords="exhaust emissions system">
+                        <div class="tool-header">
+                            <div class="tool-badges">
+                                <span class="badge interactive">Interactive</span>
+                            </div>
+                            <h3 class="tool-title">The Exhaust System</h3>
+                        </div>
+                        <div class="tool-body">
+                            <p class="tool-description">Level 1 Motor Vehicle interactive learning module for exhaust systems and emissions.</p>
+                            <div class="tool-meta">
+                                <span class="meta-item">🎯 Level 1</span>
+                            </div>
+                            <a href="https://garycrowhurst.github.io/exhaust/" class="tool-link" target="_blank">Launch Tool →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Complete Programmes & Revision Hubs -->
+            <div class="category" data-category="programmes">
+                <div class="category-header">
+                    <span class="category-icon">📚</span>
+                    <h2 class="category-title">Complete Programmes & Revision</h2>
+                </div>
+                <div class="tools-grid">
+                    <div class="tool-card" data-keywords="7290 151 revision city guilds">
+                        <div class="tool-header">
+                            <div class="tool-badges">
+                                <span class="badge revision">Revision Hub</span>
+                            </div>
+                            <h3 class="tool-title">City & Guilds 7290 Hub</h3>
+                        </div>
+                        <div class="tool-body">
+                            <p class="tool-description">Comprehensive revision hub for City & Guilds 7290 qualifications with extensive content coverage.</p>
+                            <div class="tool-meta">
+                                <span class="meta-item">📚 Complete Programme</span>
+                                <span class="meta-item">🎯 Level 2</span>
+                            </div>
+                            <a href="https://garycrowhurst.github.io/7290-151-Study-Guide/" class="tool-link" target="_blank">Launch Tool →</a>
+                        </div>
+                    </div>
+
+                    <div class="tool-card" data-keywords="7290 151 mcq multiple choice">
+                        <div class="tool-header">
+                            <div class="tool-badges">
+                                <span class="badge assessment">Assessment</span>
+                            </div>
+                            <h3 class="tool-title">Unit 7290-151 MCQ</h3>
+                        </div>
+                        <div class="tool-body">
+                            <p class="tool-description">Multiple choice assessment revision tool for Unit 7290-151: Knowledge of Routine Light Vehicle Maintenance.</p>
+                            <div class="tool-meta">
+                                <span class="meta-item">🎯 Level 2</span>
+                            </div>
+                            <a href="https://garycrowhurst.github.io/7290-151/" class="tool-link" target="_blank">Launch Tool →</a>
+                        </div>
+                    </div>
+
+                    <div class="tool-card" data-keywords="155 inspection methods vehicle">
+                        <div class="tool-header">
+                            <div class="tool-badges">
+                                <span class="badge interactive">Learning Programme</span>
+                            </div>
+                            <h3 class="tool-title">Unit 155 - Inspection Methods</h3>
+                        </div>
+                        <div class="tool-body">
+                            <p class="tool-description">Structured 40-hour programme covering City & Guilds Unit 155 - prescribed vehicle inspection methods.</p>
+                            <div class="tool-meta">
+                                <span class="meta-item">⏱️ 40 hours</span>
+                                <span class="meta-item">🎯 Level 2</span>
+                            </div>
+                            <a href="https://garycrowhurst.github.io/Unit155/" class="tool-link" target="_blank">Launch Tool →</a>
+                        </div>
+                    </div>
+
+                    <div class="tool-card" data-keywords="081 working relationships automotive">
+                        <div class="tool-header">
+                            <div class="tool-badges">
+                                <span class="badge interactive">Interactive</span>
+                            </div>
+                            <h3 class="tool-title">Working Relationships (081)</h3>
+                        </div>
+                        <div class="tool-body">
+                            <p class="tool-description">Knowledge to support working relationships in the automotive work environment.</p>
+                            <div class="tool-meta">
+                                <span class="meta-item">📝 Unit 081</span>
+                            </div>
+                            <a href="https://garycrowhurst.github.io/WorkingRelations081/" class="tool-link" target="_blank">Launch Tool →</a>
+                        </div>
+                    </div>
+
+                    <div class="tool-card" data-keywords="727 777 routine maintenance vehicle">
+                        <div class="tool-header">
+                            <div class="tool-badges">
+                                <span class="badge interactive">Training</span>
+                            </div>
+                            <h3 class="tool-title">Routine Vehicle Maintenance</h3>
+                        </div>
+                        <div class="tool-body">
+                            <p class="tool-description">Level 1 Certificate training for Units 727/777 - routine vehicle maintenance procedures.</p>
+                            <div class="tool-meta">
+                                <span class="meta-item">📝 Unit 727/777</span>
+                                <span class="meta-item">🎯 Level 1</span>
+                            </div>
+                            <a href="https://garycrowhurst.github.io/RoutineVehicleMaintenance/" class="tool-link" target="_blank">Launch Tool →</a>
+                        </div>
+                    </div>
+
+                    <div class="tool-card" data-keywords="051 health safety housekeeping">
+                        <div class="tool-header">
+                            <div class="tool-badges">
+                                <span class="badge interactive">Interactive</span>
+                            </div>
+                            <h3 class="tool-title">Health & Safety (051)</h3>
+                        </div>
+                        <div class="tool-body">
+                            <p class="tool-description">Knowledge of Health, Safety and Good Housekeeping in the Automotive Environment.</p>
+                            <div class="tool-meta">
+                                <span class="meta-item">📝 Unit 051</span>
+                                <span class="meta-item">🎯 Level 1</span>
+                            </div>
+                            <a href="https://garycrowhurst.github.io/051/" class="tool-link" target="_blank">Launch Tool →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Assessment & Progress Tracking -->
+            <div class="category" data-category="tracking">
+                <div class="category-header">
+                    <span class="category-icon">📊</span>
+                    <h2 class="category-title">Assessment & Progress Tracking</h2>
+                </div>
+                <div class="tools-grid">
+                    <div class="tool-card" data-keywords="l2mv photo evidence tracker level 2">
+                        <div class="tool-header">
+                            <div class="tool-badges">
+                                <span class="badge tracking">Progress Tracker</span>
+                            </div>
+                            <h3 class="tool-title">L2 Photo Evidence Tracker</h3>
+                        </div>
+                        <div class="tool-body">
+                            <p class="tool-description">Mobile-first app for tracking Level 2 Light Vehicle Maintenance progress with photographic evidence upload.</p>
+                            <div class="tool-meta">
+                                <span class="meta-item">📸 Photo Upload</span>
+                                <span class="meta-item">🎯 Level 2</span>
+                            </div>
+                            <a href="https://garycrowhurst.github.io/L2MV/" class="tool-link" target="_blank">Launch Tool →</a>
+                        </div>
+                    </div>
+
+                    <div class="tool-card" data-keywords="inspection checklist post race motorsport">
+                        <div class="tool-header">
+                            <div class="tool-badges">
+                                <span class="badge tracking">Checklist App</span>
+                            </div>
+                            <h3 class="tool-title">Post-Race Inspection</h3>
+                        </div>
+                        <div class="tool-body">
+                            <p class="tool-description">Complete structured post-race vehicle inspections with photo documentation and auto-save report generation.</p>
+                            <div class="tool-meta">
+                                <span class="meta-item">🏁 Motorsport</span>
+                                <span class="meta-item">📸 Photo Docs</span>
+                            </div>
+                            <a href="https://garycrowhurst.github.io/inspection/" class="tool-link" target="_blank">Launch Tool →</a>
+                        </div>
+                    </div>
+
+                    <div class="tool-card" data-keywords="imi motorsport assessment tasks">
+                        <div class="tool-header">
+                            <div class="tool-badges">
+                                <span class="badge tracking">Task Tracker</span>
+                            </div>
+                            <h3 class="tool-title">IMI Motorsport Tasks</h3>
+                        </div>
+                        <div class="tool-body">
+                            <p class="tool-description">Track IMI Motorsport assessment tasks with technical data, measurements, and photo documentation.</p>
+                            <div class="tool-meta">
+                                <span class="meta-item">🏁 IMI MSL2</span>
+                            </div>
+                            <a href="https://garycrowhurst.github.io/imimsl2/" class="tool-link" target="_blank">Launch Tool →</a>
+                        </div>
+                    </div>
+
+                    <div class="tool-card" data-keywords="ms57 motorsport inspection mastery">
+                        <div class="tool-header">
+                            <div class="tool-badges">
+                                <span class="badge revision">Revision</span>
+                                <span class="badge interactive">Interactive</span>
+                            </div>
+                            <h3 class="tool-title">Motorsport Inspection Mastery</h3>
+                        </div>
+                        <div class="tool-body">
+                            <p class="tool-description">Complete revision dashboard with quizzes, flashcards, checklists, and achievements for L2MSMS exam prep.</p>
+                            <div class="tool-meta">
+                                <span class="meta-item">🏁 MS57</span>
+                                <span class="meta-item">🎯 Level 2</span>
+                            </div>
+                            <a href="https://garycrowhurst.github.io/MS57/" class="tool-link" target="_blank">Launch Tool →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Games & Interactive Platforms -->
+            <div class="category" data-category="games">
+                <div class="category-header">
+                    <span class="category-icon">🎮</span>
+                    <h2 class="category-title">Games & Interactive Learning</h2>
+                </div>
+                <div class="tools-grid">
+                    <div class="tool-card" data-keywords="motor vehicle game platform assessment">
+                        <div class="tool-header">
+                            <div class="tool-badges">
+                                <span class="badge interactive">Game</span>
+                            </div>
+                            <h3 class="tool-title">MV Learning Platform</h3>
+                        </div>
+                        <div class="tool-body">
+                            <p class="tool-description">Master automotive technology through interactive assessment and learning exercises in a gamified platform!</p>
+                            <div class="tool-meta">
+                                <span class="meta-item">🎮 Gamified</span>
+                            </div>
+                            <a href="https://garycrowhurst.github.io/enginegame/" class="tool-link" target="_blank">Launch Tool →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- General Revision (Non-Automotive) -->
+            <div class="category" data-category="general">
+                <div class="category-header">
+                    <span class="category-icon">📖</span>
+                    <h2 class="category-title">General Revision Resources</h2>
+                </div>
+                <div class="tools-grid">
+                    <div class="tool-card" data-keywords="maths revision paper 1 foundation">
+                        <div class="tool-header">
+                            <div class="tool-badges">
+                                <span class="badge revision">Revision Hub</span>
+                            </div>
+                            <h3 class="tool-title">Maths Paper 1 Revision</h3>
+                        </div>
+                        <div class="tool-body">
+                            <p class="tool-description">Foundation Tier Non-Calculator revision for Maths Paper 1. Number, algebra, geometry, and ratio practice.</p>
+                            <div class="tool-meta">
+                                <span class="meta-item">📐 GCSE Maths</span>
+                            </div>
+                            <a href="https://garycrowhurst.github.io/MathsRevision/" class="tool-link" target="_blank">Launch Tool →</a>
+                        </div>
+                    </div>
+
+                    <div class="tool-card" data-keywords="english literature romeo juliet christmas carol">
+                        <div class="tool-header">
+                            <div class="tool-badges">
+                                <span class="badge revision">Revision Hub</span>
+                            </div>
+                            <h3 class="tool-title">English Lit Paper 1</h3>
+                        </div>
+                        <div class="tool-body">
+                            <p class="tool-description">Last-minute notes for Romeo & Juliet and A Christmas Carol. Key quotes, PEEZ structure, and practice questions.</p>
+                            <div class="tool-meta">
+                                <span class="meta-item">📚 GCSE English</span>
+                            </div>
+                            <a href="https://garycrowhurst.github.io/englishLit/" class="tool-link" target="_blank">Launch Tool →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Educator View -->
+        <div id="educator-view" class="view">
+            <div class="about-section">
+                <h2>🎓 Educator Tools by CodeEdAI</h2>
+                <p>Professional tools designed to empower educators with AI-assisted content creation and classroom management.</p>
+            </div>
+
+            <div class="category">
+                <div class="category-header">
+                    <span class="category-icon">🛠️</span>
+                    <h2 class="category-title">Teaching Tools</h2>
+                </div>
+                <div class="tools-grid">
+                    <div class="tool-card" data-keywords="qr code generator educator">
+                        <div class="tool-header">
+                            <div class="tool-badges">
+                                <span class="badge educator">Educator Tool</span>
+                            </div>
+                            <h3 class="tool-title">QR Code Generator Pro</h3>
+                        </div>
+                        <div class="tool-body">
+                            <p class="tool-description">Professional QR code generator with logo embedding, batch generation, custom styling, and offline support. No expiry, no sign-up required!</p>
+                            <div class="tool-meta">
+                                <span class="meta-item">📱 Mobile Ready</span>
+                                <span class="meta-item">⚡ Batch Processing</span>
+                            </div>
+                            <a href="https://garycrowhurst.github.io/qr/qr-generator-pro.html" class="tool-link" target="_blank">Launch Tool →</a>
+                        </div>
+                    </div>
+
+                    <div class="tool-card" data-keywords="prompt generator ai codeedai">
+                        <div class="tool-header">
+                            <div class="tool-badges">
+                                <span class="badge educator">Educator Tool</span>
+                            </div>
+                            <h3 class="tool-title">AI Prompt Generator</h3>
+                        </div>
+                        <div class="tool-body">
+                            <p class="tool-description">Transform teaching ideas into comprehensive AI prompts. Select resource type and generate custom prompts for lessons, quizzes, presentations, and more!</p>
+                            <div class="tool-meta">
+                                <span class="meta-item">🤖 AI-Powered</span>
+                            </div>
+                            <a href="https://garycrowhurst.github.io/PromptGenerator/" class="tool-link" target="_blank">Launch Tool →</a>
+                        </div>
+                    </div>
+
+                    <div class="tool-card" data-keywords="interactive task creator worksheet">
+                        <div class="tool-header">
+                            <div class="tool-badges">
+                                <span class="badge educator">Educator Tool</span>
+                            </div>
+                            <h3 class="tool-title">Interactive Task Converter</h3>
+                        </div>
+                        <div class="tool-body">
+                            <p class="tool-description">Transform static task documents into interactive digital worksheets that students can complete online.</p>
+                            <div class="tool-meta">
+                                <span class="meta-item">📝 Digital Worksheets</span>
+                            </div>
+                            <a href="https://garycrowhurst.github.io/InteractiveTaskCreator/" class="tool-link" target="_blank">Launch Tool →</a>
+                        </div>
+                    </div>
+
+                    <div class="tool-card" data-keywords="certificate generator racing awards">
+                        <div class="tool-header">
+                            <div class="tool-badges">
+                                <span class="badge educator">Educator Tool</span>
+                            </div>
+                            <h3 class="tool-title">Certificate Generator</h3>
+                        </div>
+                        <div class="tool-body">
+                            <p class="tool-description">Create professional certificates with multiple style options including Racing, Classic, Modern, and Elegant themes.</p>
+                            <div class="tool-meta">
+                                <span class="meta-item">🏆 Awards</span>
+                            </div>
+                            <a href="https://garycrowhurst.github.io/CertificateGenerator/" class="tool-link" target="_blank">Launch Tool →</a>
+                        </div>
+                    </div>
+
+                    <div class="tool-card" data-keywords="code viewer html css javascript">
+                        <div class="tool-header">
+                            <div class="tool-badges">
+                                <span class="badge educator">Educator Tool</span>
+                            </div>
+                            <h3 class="tool-title">Code Viewer</h3>
+                        </div>
+                        <div class="tool-body">
+                            <p class="tool-description">Live code editor with split view and preview. Perfect for demonstrating web development concepts in class.</p>
+                            <div class="tool-meta">
+                                <span class="meta-item">💻 Live Preview</span>
+                            </div>
+                            <a href="https://garycrowhurst.github.io/CodeViewer/" class="tool-link" target="_blank">Launch Tool →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="about-section">
+                <h2>📚 About CodeEdAI Training</h2>
+                <p>CodeEdAI delivers professional training sessions that teach educators how to create interactive learning resources using AI and modern web technologies.</p>
+                
+                <h3>What We Offer</h3>
+                <ul>
+                    <li><strong>Interactive Content Creation:</strong> Learn to build escape rooms, gamified assessments, and engaging digital resources</li>
+                    <li><strong>AI-Assisted Development:</strong> Master prompt engineering and AI tools for educational content</li>
+                    <li><strong>No-Code Solutions:</strong> Create professional resources without programming knowledge</li>
+                    <li><strong>Mobile-First Design:</strong> Ensure accessibility for all learners across devices</li>
+                    <li><strong>Assessment Innovation:</strong> Transform traditional testing into interactive experiences</li>
+                </ul>
+
+                <h3>Training Topics</h3>
+                <ul>
+                    <li>Building Interactive Escape Rooms for Education</li>
+                    <li>Creating Gamified Revision Platforms</li>
+                    <li>Developing Mobile-Friendly Learning Resources</li>
+                    <li>AI Tools for Educators (ChatGPT, Claude, etc.)</li>
+                    <li>Digital Assessment Design</li>
+                    <li>GitHub Pages for Educators (Free Web Hosting)</li>
+                </ul>
+
+                <p><strong>All resources on this site are examples of what educators can create after CodeEdAI training!</strong></p>
+            </div>
+        </div>
+
+        <!-- About View -->
+        <div id="about-view" class="view">
+            <div class="about-section">
+                <h2>🚗 About This Platform</h2>
+                <p>Welcome to the Motor Vehicle Learning Hub - a comprehensive collection of over 30 interactive learning tools and resources designed specifically for automotive education.</p>
+
+                <h3>The Philosophy</h3>
+                <p>Traditional automotive education often relies on passive learning - reading textbooks, watching demonstrations, taking notes. This platform transforms that approach by making learning <strong>active, interactive, and engaging</strong>.</p>
+                
+                <p>Every tool here is built on these principles:</p>
+                <ul>
+                    <li><strong>Hands-On Learning:</strong> Students learn by doing, not just reading</li>
+                    <li><strong>Immediate Feedback:</strong> Real-time responses help students learn from mistakes</li>
+                    <li><strong>Gamification:</strong> Escape rooms and challenges make learning fun</li>
+                    <li><strong>Mobile-First:</strong> Learn anywhere, anytime, on any device</li>
+                    <li><strong>Free & Accessible:</strong> No sign-ups, no paywalls, no barriers</li>
+                </ul>
+
+                <h3>What Makes This Different?</h3>
+                <ul>
+                    <li><strong>Escape Room Learning:</strong> Turn revision into an adventure with puzzle-solving and challenges</li>
+                    <li><strong>Interactive Modules:</strong> Click, drag, upload, and interact - not just read</li>
+                    <li><strong>Real-World Scenarios:</strong> Motorsport simulators and diagnostic challenges</li>
+                    <li><strong>Progress Tracking:</strong> Photo evidence uploads and achievement systems</li>
+                    <li><strong>Comprehensive Coverage:</strong> From Level 1 basics to Level 2 advanced topics</li>
+                </ul>
+
+                <h3>Who Is This For?</h3>
+                <p><strong>Students:</strong> Access all resources for free to support your City & Guilds, IMI, and other automotive qualifications. Perfect for revision, self-study, and exam preparation.</p>
+                
+                <p><strong>Educators:</strong> See examples of modern educational technology in action. Every resource here demonstrates what's possible when you combine AI tools, web technologies, and pedagogical best practices.</p>
+
+                <h3>The Technology</h3>
+                <p>All resources are built using:</p>
+                <ul>
+                    <li>HTML, CSS, and JavaScript (no complex frameworks)</li>
+                    <li>Mobile-responsive design</li>
+                    <li>Hosted free on GitHub Pages</li>
+                    <li>No backend required - everything runs in the browser</li>
+                    <li>Works offline once loaded</li>
+                </ul>
+
+                <h3>Get in Touch</h3>
+                <p>Interested in CodeEdAI training sessions? Want to learn how to create these resources yourself? Have feedback or suggestions?</p>
+                <p><strong>Contact:</strong> Gary Crowhurst | CodeEdAI</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <p><strong>Motor Vehicle Learning Hub</strong></p>
+            <p>Created by Gary Crowhurst | CodeEdAI</p>
+            <p>All resources are free and open-access for students and educators</p>
+            <div class="footer-links">
+                <a href="https://turbolearn.co.uk/" target="_blank">TurboLearn.co.uk</a>
+                <span>•</span>
+                <a href="https://github.com/garycrowhurst" target="_blank">GitHub</a>
+            </div>
+            <p style="margin-top: 2rem; opacity: 0.7; font-size: 0.9rem;">
+                © 2025 | Building the future of automotive education, one interactive tool at a time.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // View Switching
+        function switchView(viewName) {
+            // Update nav tabs
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Update views
+            document.querySelectorAll('.view').forEach(view => {
+                view.classList.remove('active');
+            });
+            document.getElementById(viewName + '-view').classList.add('active');
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Search Functionality
+        const searchBar = document.getElementById('searchBar');
+        
+        searchBar.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const toolCards = document.querySelectorAll('.tool-card');
+            const categories = document.querySelectorAll('.category');
+
+            toolCards.forEach(card => {
+                const keywords = card.dataset.keywords || '';
+                const title = card.querySelector('.tool-title').textContent.toLowerCase();
+                const description = card.querySelector('.tool-description').textContent.toLowerCase();
+                
+                const matches = keywords.includes(searchTerm) || 
+                               title.includes(searchTerm) || 
+                               description.includes(searchTerm);
+                
+                if (searchTerm === '' || matches) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            // Hide empty categories
+            categories.forEach(category => {
+                const visibleCards = category.querySelectorAll('.tool-card[style="display: flex"], .tool-card:not([style])');
+                if (searchTerm !== '' && visibleCards.length === 0) {
+                    category.style.display = 'none';
+                } else {
+                    category.style.display = 'block';
+                }
+            });
+        });
+
+        // Smooth scroll for all internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Add animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all tool cards
+        document.querySelectorAll('.tool-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+            observer.observe(card);
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === '/' && e.target !== searchBar) {
+                e.preventDefault();
+                searchBar.focus();
+            }
+            if (e.key === 'Escape' && document.activeElement === searchBar) {
+                searchBar.blur();
+                searchBar.value = '';
+                searchBar.dispatchEvent(new Event('input'));
+            }
+        });
+
+        // Initialize
+        console.log('🚗 Motor Vehicle Learning Hub loaded successfully!');
+        console.log('📚 Total resources: 30+');
+        console.log('🎯 Ready for learning!');
+    </script>
+</body>
+</html>
